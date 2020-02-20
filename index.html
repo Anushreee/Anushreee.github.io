@@ -6,7 +6,9 @@
 </head>
 <body>
     helo world!
+    <div id ="instagram-feed"></div>
 <script>
+
 
   function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
     console.log('statusChangeCallback');
@@ -59,6 +61,37 @@
         'Thanks for logging in, ' + response.name + '!';
     });
   }
+
+
+  async function getInstagramFeeds() {
+				const div = document.querySelector('#instagram-feed');
+				const url = 'https://graph.instagram.com/me/media?fields=id,caption,permalink,media_url';
+				const accesstoken = 'EAAMUHOn4ZADsBAB3JVV6fZCKmVteVZBbOJaZBkLSbBGbY1FYlfF9iokACIvadj0cZAhVHVBzcTUFZABA1Vl9RczBL8knHp2kj4lrbtm0k11NmJEwPoMArOmkTZAPFZAjKAMBL3OAHG5QyjZCKYpHZCz7CIbie6ZCjU9OdOHPJBx3zrrGMZAmTLBM0Ak2';
+				const maxFeed = parseInt(div.dataset.maxfeed);
+				const iconLikes = div.dataset.iconlikes;
+				const iconComment = div.dataset.iconcomment;
+				const singlePostLink = div.dataset.singlepostlink;
+
+                try {
+                    const response = await fetch(`${url}&access_token=${accesstoken}`);                   
+					const fetchedData = await response.json();
+					console.log('fetched data is', fetchedData);
+					const finalData = fetchedData.data.slice(0,maxFeed);
+					
+                    let output = '<div class="product-container">';
+                    finalData.forEach(each=> {
+						output += `
+									<article class="product">
+									<p>hello
+									</article>`;
+                    });
+                    document.getElementById('instagram-feed').innerHTML = output;
+                }
+                catch(err) {
+                    console.log(err);
+                }
+            }
+            getInstagramFeeds();
 
 </script>
 
